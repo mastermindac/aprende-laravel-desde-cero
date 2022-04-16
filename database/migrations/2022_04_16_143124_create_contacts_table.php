@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('phone_number');
+            $table->string('email');
+            $table->tinyInteger('age', unsigned: true);
             $table->timestamps();
         });
     }
