@@ -10,8 +10,15 @@
             <div class="card-body">
               <h3 class="card-title text-capitalize">{{ $contact->name }}</h3>
               <p class="m-2">{{ $contact->phone_number }}</p>
-              <a href="{{ route('contacts.edit', $contact->id) }}" class="btn btn-secondary mb-2">Edit Contact</a>
-              <a href="" class="btn btn-danger mb-2">Delete Contact</a>
+              <a href="{{ route('contacts.edit', $contact->id) }}"
+                class="btn btn-secondary mb-2">Edit Contact</a>
+              <form action="{{ route('contacts.destroy', $contact->id) }}"
+                method="POST">
+                @csrf
+                @method("DELETE")
+                <button type="submit" class="btn btn-danger mb-2">Delete
+                  Contact</button>
+              </form>
             </div>
           </div>
         </div>
