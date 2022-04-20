@@ -7,3 +7,9 @@
     background-position: center center;
     background-size: cover;
 }
+
+.profile-picture {
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+}

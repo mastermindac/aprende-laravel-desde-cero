@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreContactRequest;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ContactController extends Controller
 {
@@ -38,7 +39,14 @@ class ContactController extends Controller
      */
     public function store(StoreContactRequest $request)
     {
-        $contact = auth()->user()->contacts()->create($request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('profile_picture')) {
+            $path = $request->file('profile_picture')->store('profiles', 'public');
+            $data['profile_picture'] = $path;
+        }
+
+        $contact = auth()->user()->contacts()->create($data);
 
         return redirect('home')->with('alert', [
             'message' => "Contact $contact->name successfully saved",
@@ -83,7 +91,14 @@ class ContactController extends Controller
     {
         $this->authorize('update', $contact);
 
-        $contact->update($request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('profile_picture')) {
+            $path = $request->file('profile_picture')->store('profiles', 'public');
+            $data['profile_picture'] = $path;
+        }
+
+        $contact->update($data);
 
         return redirect('home')->with('alert', [
             'message' => "Contact $contact->name successfully updated",

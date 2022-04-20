@@ -15,6 +15,7 @@ class Contact extends Model
         "age",
         "email",
         "user_id",
+        "profile_picture"
     ];
 
     public function user() {

@@ -8,7 +8,13 @@
           <div class="card-header">Edit New Contact</div>
 
           <div class="card-body">
-            <form method="POST" action="{{ route('contacts.update', $contact->id) }}">
+            <div class="d-flex justify-content-center mb-4">
+              <img class="profile-picture"
+                src="{{ Storage::url($contact->profile_picture) }}">
+            </div>
+            <form method="POST"
+              action="{{ route('contacts.update', $contact->id) }}"
+              enctype="multipart/form-data">
               @csrf
               @method("PUT")
               <div class="row mb-3">
@@ -16,7 +22,8 @@
                   class="col-md-4 col-form-label text-md-end">Name</label>
 
                 <div class="col-md-6">
-                  <input value="{{ old('name') ?? $contact->name }}" id="name" type="text"
+                  <input value="{{ old('name') ?? $contact->name }}" id="name"
+                    type="text"
                     class="form-control @error('name') is-invalid @enderror"
                     name="name" autocomplete="name" autofocus>
 
@@ -34,8 +41,9 @@
                   class="col-md-4 col-form-label text-md-end">Phone Number</label>
 
                 <div class="col-md-6">
-                  <input value="{{ old('phone_number') ?? $contact->phone_number }}" id="phone_number"
-                    type="tel"
+                  <input
+                    value="{{ old('phone_number') ?? $contact->phone_number }}"
+                    id="phone_number" type="tel"
                     class="@error('phone_number') is-invalid @enderror form-control"
                     name="phone_number" autocomplete="phone_number">
 
@@ -70,11 +78,30 @@
                   class="col-md-4 col-form-label text-md-end">Age</label>
 
                 <div class="col-md-6">
-                  <input value="{{ old('age') ?? $contact->age }}" id="age" type="tel"
+                  <input value="{{ old('age') ?? $contact->age }}" id="age"
+                    type="tel"
                     class="@error('age') is-invalid @enderror form-control"
                     name="age" autocomplete="age">
 
                   @error('age')
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </span>
+                  @enderror
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <label for="age"
+                  class="col-md-4 col-form-label text-md-end">Profile
+                  Picture</label>
+
+                <div class="col-md-6">
+                  <input id="profile_picture" type="file"
+                    class="@error('profile_picture') is-invalid @enderror form-control"
+                    name="profile_picture">
+
+                  @error('profile_picture')
                     <span class="invalid-feedback" role="alert">
                       <strong>{{ $message }}</strong>
                     </span>
