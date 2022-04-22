@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ContactShareController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StripeController;
 use Illuminate\Http\Request;
@@ -29,5 +30,7 @@ Route::get('/free-trial-end', [StripeController::class, 'freeTrialEnd'])->name('
 Route::middleware(['auth', 'subscription'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::resource('contacts', ContactController::class);
+    Route::resource('contact-shares', ContactShareController::class)
+        ->except(['show', 'edit', 'update']);
 });
 

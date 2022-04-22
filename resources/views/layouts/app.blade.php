@@ -63,6 +63,10 @@
             @else
               <li class="nav-item">
                 <a class="nav-link"
+                  href="{{ route('contact-shares.create') }}">Share Contact</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link"
                   href="{{ route('contacts.index') }}">My Contacts</a>
               </li>
               <li class="nav-item">
@@ -97,13 +101,17 @@
 
     <main class="py-4">
       @if ($alert = session()->get('alert'))
-        <x-alert :type="$alert['type']" :message="$alert['message']"/>
+        <x-alert :type="$alert['type']" :message="$alert['message']" />
       @endif
-      @if (!auth()->user()?->subscribed() && auth()->user()?->onTrial())
-          @php
-            $freeTrialRemainingDays = now()->diffInDays(auth()->user()->trial_ends_at)
-          @endphp
-          <x-alert type="info" message="Trial ends in {{ $freeTrialRemainingDays }} days. Upgrade <a href='{{ route('checkout') }}'>here</a>" />
+      @if (!auth()->user()
+    ?->subscribed() &&
+    auth()->user()
+        ?->onTrial())
+        @php
+          $freeTrialRemainingDays = now()->diffInDays(auth()->user()->trial_ends_at);
+        @endphp
+        <x-alert type="info"
+          message="Trial ends in {{ $freeTrialRemainingDays }} days. Upgrade <a href='{{ route('checkout') }}'>here</a>" />
       @endif
 
       @yield('content')
