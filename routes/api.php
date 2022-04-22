@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Resources\ContactResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', fn (Request $request) => $request->user());
+    Route::get(
+        '/contacts',
+        fn (Request $request) => ContactResource::collection($request->user()->contacts)
+    );
 });
