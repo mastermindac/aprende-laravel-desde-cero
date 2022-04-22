@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactShared;
 use App\Models\Contact;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
 class ContactShareController extends Controller
@@ -54,6 +56,8 @@ class ContactShareController extends Controller
         }
 
         $contact->sharedWithUsers()->attach($user->id);
+
+        Mail::to($user)->send(new ContactShared(auth()->user()->email, $contact->email));
 
         return redirect()->route('home')->with('alert', [
             'message' => "Contact $contact->email shared with $user->email successfully",
